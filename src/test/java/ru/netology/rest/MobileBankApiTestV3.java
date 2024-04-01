@@ -18,10 +18,13 @@ class MobileBankApiTestV3 {
                 .when()
                 .get("/demo/accounts")
                 // Проверки
-                // код теста
                 .then()
                 .statusCode(200)
-                .body(matchesJsonSchemaInClasspath("accounts.schema.json"));
+                // специализированные проверки - лучше
+                .contentType(ContentType.JSON)
+                .body("", hasSize(3))
+                .body("[0].currency", equalTo("RUR"))
+                .body("[0].balance", greaterThanOrEqualTo(0))
         ;
     }
 }
